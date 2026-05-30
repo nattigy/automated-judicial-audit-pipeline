@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -90,11 +90,20 @@ function Result({ data }) {
 
 export default function App() {
   const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [dragging, setDragging] = useState(false);
+  const [showPdf, setShowPdf] = useState(false);
   const inputRef = useRef();
+
+  useEffect(() => {
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setFileUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
 
   function handleFile(f) {
     if (!f) return;
@@ -105,6 +114,7 @@ export default function App() {
     setFile(f);
     setResult(null);
     setError(null);
+    setShowPdf(false);
   }
 
   async function handleSubmit() {
@@ -186,6 +196,24 @@ export default function App() {
         </button>
 
         {result && <Result data={result} />}
+
+        {result && fileUrl && (
+          <div className="pdf-viewer-section">
+            <button
+              className="btn-toggle-pdf"
+              onClick={() => setShowPdf((v) => !v)}
+            >
+              {showPdf ? "Hide Original PDF" : "View Original PDF"}
+            </button>
+            {showPdf && (
+              <iframe
+                className="pdf-iframe"
+                src={fileUrl}
+                title="Original PDF"
+              />
+            )}
+          </div>
+        )}
       </main>
     </div>
   );

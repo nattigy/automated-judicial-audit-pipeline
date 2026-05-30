@@ -293,6 +293,40 @@
   text-align: right;
 }
 
+/* PDF Viewer */
+.pdf-viewer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.btn-toggle-pdf {
+  width: 100%;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-toggle-pdf:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.pdf-iframe {
+  width: 100%;
+  height: 600px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin-top: 10px;
+  background: #fff;
+}
+
 /* Raw JSON */
 .raw-json {
   padding: 12px 18px;
